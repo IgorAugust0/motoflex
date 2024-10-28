@@ -7,15 +7,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{58E3AF52-123
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Motoflex.Domain", "src\Motoflex.Domain\Motoflex.Domain.csproj", "{3560C390-7FD1-4AF0-B8C1-4ACFE8C2EFC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Motoflex.Infrastructure", "src\Motoflex.Infrastructure\Motoflex.Infrastructure.csproj", "{71BE76F6-33F5-4E0F-A42A-BF81BC62944C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Motoflex.Infrastructure", "src\Motoflex.Infrastructure\Motoflex.Infrastructure.csproj", "{71BE76F6-33F5-4E0F-A42A-BF81BC62944C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3560C390-7FD1-4AF0-B8C1-4ACFE8C2EFC7} = {3560C390-7FD1-4AF0-B8C1-4ACFE8C2EFC7}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Motoflex.Application", "src\Motoflex.Application\Motoflex.Application.csproj", "{AA7E5666-DA2A-416E-8BFE-2DBF59BD44A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Motoflex.Application", "src\Motoflex.Application\Motoflex.Application.csproj", "{AA7E5666-DA2A-416E-8BFE-2DBF59BD44A3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3560C390-7FD1-4AF0-B8C1-4ACFE8C2EFC7} = {3560C390-7FD1-4AF0-B8C1-4ACFE8C2EFC7}
+		{71BE76F6-33F5-4E0F-A42A-BF81BC62944C} = {71BE76F6-33F5-4E0F-A42A-BF81BC62944C}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Motoflex.Api", "src\Motoflex.Api\Motoflex.Api.csproj", "{4E3072AF-5552-4118-9BFD-1BE0018BD906}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Motoflex.Api", "src\Motoflex.Api\Motoflex.Api.csproj", "{4E3072AF-5552-4118-9BFD-1BE0018BD906}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AA7E5666-DA2A-416E-8BFE-2DBF59BD44A3} = {AA7E5666-DA2A-416E-8BFE-2DBF59BD44A3}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CF4F1615-E2EA-4B3A-BFA9-ACF1E1E503EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Motoflex.UnitTests", "test\Motoflex.UnitTests\Motoflex.UnitTests.csproj", "{866DE6F6-9834-481B-9F8F-C23EF2DC319D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Motoflex.UnitTests", "test\Motoflex.UnitTests\Motoflex.UnitTests.csproj", "{866DE6F6-9834-481B-9F8F-C23EF2DC319D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3560C390-7FD1-4AF0-B8C1-4ACFE8C2EFC7} = {3560C390-7FD1-4AF0-B8C1-4ACFE8C2EFC7}
+		{4E3072AF-5552-4118-9BFD-1BE0018BD906} = {4E3072AF-5552-4118-9BFD-1BE0018BD906}
+		{71BE76F6-33F5-4E0F-A42A-BF81BC62944C} = {71BE76F6-33F5-4E0F-A42A-BF81BC62944C}
+		{AA7E5666-DA2A-416E-8BFE-2DBF59BD44A3} = {AA7E5666-DA2A-416E-8BFE-2DBF59BD44A3}
+	EndProjectSection
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{3F512503-9413-42D5-8AD1-F64A7F5F0239}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +61,10 @@ Global
 		{866DE6F6-9834-481B-9F8F-C23EF2DC319D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{866DE6F6-9834-481B-9F8F-C23EF2DC319D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{866DE6F6-9834-481B-9F8F-C23EF2DC319D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F512503-9413-42D5-8AD1-F64A7F5F0239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F512503-9413-42D5-8AD1-F64A7F5F0239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F512503-9413-42D5-8AD1-F64A7F5F0239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F512503-9413-42D5-8AD1-F64A7F5F0239}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

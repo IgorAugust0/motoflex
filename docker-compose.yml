@@ -1,0 +1,6 @@
+services:
+  motoflex.api:
+    image: ${DOCKER_REGISTRY-}motoflexapi
+    build:
+      context: .
+      dockerfile: src/Motoflex.Api/Dockerfile

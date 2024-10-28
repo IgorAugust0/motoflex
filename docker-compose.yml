@@ -1,6 +1,67 @@
+name: motoflex
+
 services:
-  motoflex.api:
-    image: ${DOCKER_REGISTRY-}motoflexapi
+  api:
+    image: app
     build:
       context: .
       dockerfile: src/Motoflex.Api/Dockerfile
+    container_name: motoflex-api
+    ports:
+      - 8080:8080
+      - 8081:8081
+    depends_on:
+      db:
+        condition: service_healthy
+      # queue:
+      #   condition: service_healthy
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080;https://+:8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/motoflex.pfx
+      - ConnectionStrings__DefaultConnection=Host=db;Database=motoflex;Username=root;Password=password
+    # volumes:
+      - ~/.aspnet/https:/https:ro
+      # - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      # - ~/.aws:/root/.aws:ro
+
+  db:
+    image: postgres
+    container_name: motoflex-postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "root"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+    ports:
+      - "8002:5432"
+    environment:
+      - POSTGRES_DB=motoflex
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - .data:/var/lib/postgresql/data
+      # - ./.containers/motoflex-postgres:/var/lib/postgresql/data
+
+  # queue:
+  #   image: rabbitmq:management
+  #   container_name: motoflex-rabbitmq
+  #   hostname: motoflex-queue
+  #   healthcheck:
+  #     test: rabbitmq-diagnostics check_port_connectivity
+  #     interval: 10s
+  #     timeout: 30s
+  #     retries: 5
+  #   ports:
+  #     - "8003:15672"
+  #     # - "5000:5000"
+  #     # - "5002:5001"
+  #   environment:
+  #     - RABBITMQ_DEFAULT_USER=guest
+  #     - RABBITMQ_DEFAULT_PASS=guest
+  #   volumes:
+  #     - .rabbitmq/data:/var/lib/rabbitmq
+  #     - .rabbitmq/logs:/var/log/rabbitmq
+

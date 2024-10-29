@@ -9,30 +9,34 @@ namespace Motoflex.Infrastructure.Contexts
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder
-                .Property<Guid>("Id")
+                .Property(m => m.Id)
                 .IsRequired();
 
             builder
-                .Property<DateTime>("CreatedAt")
+                .Property(m => m.CreatedAt)
                 .HasColumnType("timestamp without time zone")
+                .HasColumnName("created_at")
                 .IsRequired();
 
             builder
-                .Property("DeliveryFee")
+                .Property(m => m.DeliveryFee)
                 .HasPrecision(5, 2)
+                .HasColumnName("delivery_fee")
                 .IsRequired();
 
             builder
-                .Property("Status")
+                .Property(m => m.Status)
                 .HasConversion<string>()
                 .HasColumnType("varchar")
+                .HasColumnName("status")
                 .IsRequired();
 
             builder
-                .Property<Guid?>("RenterId")
+                .Property(m => m.RenterId)
+                .HasColumnName("renter_id")
                 .IsRequired(false);
 
-            builder.HasKey("Id");
+            builder.HasKey(m => m.Id);
 
             // Configures one-to-many relationship between Renter and Orders
             builder

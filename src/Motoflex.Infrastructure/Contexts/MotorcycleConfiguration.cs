@@ -8,23 +8,30 @@ namespace Motoflex.Infrastructure.Contexts
     {
         public void Configure(EntityTypeBuilder<Motorcycle> builder)
         {
-            builder.Property<Guid>("Id").IsRequired();
-
-            builder.Property("Year").IsRequired();
+            builder
+                .Property(m => m.Id)
+                .IsRequired();
 
             builder
-                .Property("Model")
-                .IsRequired()
-                .HasColumnType("varchar")
-                .HasMaxLength(50);
+                .Property(m => m.Year)
+                .HasColumnName("year")
+                .IsRequired();
 
             builder
-                .Property("LicensePlate")
+                .Property(m => m.Model)
                 .IsRequired()
-                .HasColumnType("char(7)");
+                .HasColumnType("varchar(50)")
+                .HasColumnName("model");
+            //.HasMaxLength(50);
 
-            builder.HasKey("Id");
-            builder.HasIndex("LicensePlate").IsUnique();
+            builder
+                .Property(m => m.LicensePlate)
+                .IsRequired()
+                .HasColumnType("char(7)")
+                .HasColumnName("license_plate");
+
+            builder.HasKey(m => m.Id);
+            builder.HasIndex(m => m.LicensePlate).IsUnique();
         }
     }
 }

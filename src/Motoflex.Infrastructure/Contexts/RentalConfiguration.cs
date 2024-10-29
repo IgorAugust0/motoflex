@@ -9,43 +9,50 @@ namespace Motoflex.Infrastructure.Contexts
         public void Configure(EntityTypeBuilder<Rental> builder)
         {
             builder
-                .Property<Guid>("Id")
+                .Property(m => m.Id)
                 .IsRequired();
 
             builder
-                .Property<Plan>("Plan")
+                .Property(m => m.Plan)
                 .HasConversion<string>()
                 .HasColumnType("varchar")
+                .HasColumnName("plan")
                 .IsRequired();
 
             builder
-                .Property<Guid>("RenterId")
+                .Property(m => m.RenterId)
+                .HasColumnName("renter_id")
                 .IsRequired();
 
             builder
-                .Property<Guid>("MotorcycleId")
+                .Property(m => m.MotorcycleId)
+                .HasColumnName("motorcycle_id")
                 .IsRequired();
 
             builder
-                .Property<DateTime>("BeginAt")
+                .Property(m => m.BeginAt)
                 .HasColumnType("Date")
+                .HasColumnName("begin_at")
                 .IsRequired();
 
             builder
-                .Property<DateTime>("FinishAt")
+                .Property(m => m.FinishAt)
                 .HasColumnType("Date")
+                .HasColumnName("finish_at")
                 .IsRequired();
 
             builder
-                .Property<DateTime>("ReturnAt")
+                .Property(m => m.ReturnAt)
                 .HasColumnType("Date")
+                .HasColumnName("return_at")
                 .IsRequired();
 
             builder
-                .Property<bool>("Active")
+                .Property(m => m.Active)
+                .HasColumnName("active")
                 .IsRequired();
 
-            builder.HasKey("Id"); // Sets primary key
+            builder.HasKey(m => m.Id); // Sets primary key
 
             // Configures one-to-many relationship between Renter and Rentals
             builder

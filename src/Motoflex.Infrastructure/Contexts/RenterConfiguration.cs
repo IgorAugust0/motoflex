@@ -9,42 +9,48 @@ namespace Motoflex.Infrastructure.Contexts
         public void Configure(EntityTypeBuilder<Renter> builder)
         {
             builder
-                .Property<Guid>("Id")
+                .Property(m => m.Id)
                 .IsRequired();
 
             builder
-                .Property("Name")
+                .Property(m => m.Name)
                 .HasColumnType("varchar")
+                .HasColumnName("name")
                 .IsRequired();
 
             builder
-                .Property("Cnpj")
+                .Property(m => m.Cnpj)
                 .HasColumnType("char(14)")
+                .HasColumnName("cnpj")
                 .IsRequired();
 
             builder
-                .Property<DateTime>("BirthDate")
+                .Property(m => m.Birthdate)
                 .HasColumnType("Date")
+                .HasColumnName("birthdate")
                 .IsRequired();
 
             builder
-                .Property("Cnh")
+                .Property(m => m.Cnh)
                 .HasColumnType("char(12)")
+                .HasColumnName("cnh")
                 .IsRequired();
 
             builder
-                .Property("CnhType")
+                .Property(m => m.CnhType)
                 .HasConversion<string>()
                 .HasColumnType("varchar")
+                .HasColumnName("cnh_type")
                 .IsRequired();
 
             builder
-                .Property("CnhImage")
-                .HasColumnType("varchar");
+                .Property(m => m.CnhImage)
+                .HasColumnType("varchar")
+                .HasColumnName("cnh_image");
 
             builder.HasKey("Id");
-            builder.HasIndex("Cnpj").IsUnique();
-            builder.HasIndex("Cnh").IsUnique();
+            builder.HasIndex(m => m.Cnpj).IsUnique();
+            builder.HasIndex(m => m.Cnh).IsUnique();
 
             // Configures many-to-many relationship between Renter and Notification entities
             builder

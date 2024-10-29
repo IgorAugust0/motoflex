@@ -8,8 +8,12 @@ namespace Motoflex.Infrastructure.Contexts
     {
         public void Configure(EntityTypeBuilder<Admin> builder)
         {
-            builder.Property<Guid>("Id").IsRequired();
-            builder.HasKey("Id");
+            builder
+                .Property(m => m.Id)
+                .IsRequired();
+
+            builder
+                .HasKey(m => m.Id);
         }
     }
 }

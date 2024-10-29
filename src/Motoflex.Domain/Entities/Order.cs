@@ -12,7 +12,7 @@ namespace Motoflex.Domain.Entities
         [JsonIgnore]
         public virtual Renter Renter { get; set; } = null!;
         [JsonIgnore]
-        public virtual ICollection<Renter> NotifiedRenters { get; set; } = [];
+        public virtual ICollection<Renter> NotifiedRenters { get; set; } = []; // new List<Renter>(); 
     }
 
     public enum Status

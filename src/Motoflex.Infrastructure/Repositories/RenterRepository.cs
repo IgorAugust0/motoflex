@@ -17,11 +17,11 @@ namespace Motoflex.Infrastructure.Repositories
             return _context.Set<Renter>()
                 .Include(re => re.Rentals) // load rentals for each renter
                 .Where(re => re.Rentals.Any(re => re.Active)) // renters with active rentals
-                .Include(c => c.Orders) // load orders for filtered renters
-                .Where(c => !c.Orders.Any(o => o.Status == Status.Available)); // renter without available orders
+                .Include(re => re.Orders) // load orders for filtered renters
+                .Where(re => !re.Orders.Any(o => o.Status == Status.Available)); // renter without available orders
 
-            //.Include(c => c.Rentals).Include(c => c.Orders)
-            //.Where(c => c.Rentals.Any(r => r.Active) && !c.Orders.Any(o => o.Status == Status.Available));
+            //.Include(re => re.Rentals).Include(re => re.Orders)
+            //.Where(re => re.Rentals.Any(r => r.Active) && !re.Orders.Any(o => o.Status == Status.Available));
         }
     }
 }

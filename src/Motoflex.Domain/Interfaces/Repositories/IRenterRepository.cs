@@ -4,7 +4,7 @@ namespace Motoflex.Domain.Interfaces.Repositories
 {
     public interface IRenterRepository : IBaseRepository<Renter>
     {
-        IQueryable<Renter> GetRentals();
-        IQueryable<Renter> AvailableRentersForOrder();
+        IQueryable<Renter> GetAllRentals();
+        IQueryable<Renter> GetAvailableRentersForOrder();
     }
 }

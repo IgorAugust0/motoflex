@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\Requests\" />
+    <ProjectReference Include="..\Motoflex.Domain\Motoflex.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
-﻿namespace Motoflex.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace Motoflex.Domain.Entities
 {
     public class Rental : BaseEntity
     {
@@ -9,6 +11,11 @@
         public DateTime FinishAt { get; set; }
         public DateTime ReturnAt { get; set; }
         public bool Active { get; set; }
+
+        [JsonIgnore]
+        public virtual Motorcycle Motorcycle { get; set; } = null!;
+        [JsonIgnore]
+        public virtual Renter Renter { get; set; } = null!;
 
         public Rental(Plan plan, Guid renterId) : base()
         {

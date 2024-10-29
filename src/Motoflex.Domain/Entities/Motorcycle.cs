@@ -1,4 +1,6 @@
-﻿namespace Motoflex.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace Motoflex.Domain.Entities
 {
     public class Motorcycle(int year, string model, string licensePlate) : BaseEntity()
     {
@@ -6,5 +8,8 @@
         public string Model { get; set; } = model;
         public string LicensePlate { get; set; } = licensePlate;
         public bool Available { get; set; } = true;
+
+        [JsonIgnore]
+        public virtual ICollection<Rental> Rentals { get; set; } = [];
     }
 }

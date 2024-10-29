@@ -8,7 +8,7 @@ namespace Motoflex.Infrastructure.Repositories
     {
         protected readonly AppDbContext _context = context;
 
-        public IQueryable<T> Get(Guid id)
+        public virtual IQueryable<T> Get(Guid id) // remove virtual if something goes wrong
         {
             return _context.Set<T>().Where(x => x.Id == id);
         }

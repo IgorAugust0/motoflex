@@ -6,48 +6,34 @@
         decimal EarlyTerminationRate { get; }
     }
 
-    public class SevenDayPlan : IRentalPlan
+    public abstract class RentalPlanBase(decimal dailyRate, decimal terminationRate) : IRentalPlan
     {
-        private const decimal DAILY_RATE = 30m;
-        private const decimal TERMINATION_RATE = 0.2m;
-
-        public decimal DailyRate => DAILY_RATE;
-        public decimal EarlyTerminationRate => TERMINATION_RATE;
+        public decimal DailyRate { get; } = dailyRate;
+        public decimal EarlyTerminationRate { get; } = terminationRate;
     }
 
-    public class FifteenDayPlan : IRentalPlan
+    public class SevenDayPlan : RentalPlanBase
     {
-        private const decimal DAILY_RATE = 28m;
-        private const decimal TERMINATION_RATE = 0.4m;
-
-        public decimal DailyRate => DAILY_RATE;
-        public decimal EarlyTerminationRate => TERMINATION_RATE;
+        public SevenDayPlan() : base(30m, 0.2m) { }
     }
 
-    public class ThirtyDayPlan : IRentalPlan
+    public class FifteenDayPlan : RentalPlanBase
     {
-        private const decimal DAILY_RATE = 22m;
-        private const decimal TERMINATION_RATE = 0.6m;
-
-        public decimal DailyRate => DAILY_RATE;
-        public decimal EarlyTerminationRate => TERMINATION_RATE;
+        public FifteenDayPlan() : base(28m, 0.4m) { }
     }
 
-    public class FortyFiveDayPlan : IRentalPlan
+    public class ThirtyDayPlan : RentalPlanBase
     {
-        private const decimal DAILY_RATE = 20m;
-        private const decimal TERMINATION_RATE = 0.8m;
-
-        public decimal DailyRate => DAILY_RATE;
-        public decimal EarlyTerminationRate => TERMINATION_RATE;
+        public ThirtyDayPlan() : base(22m, 0.6m) { }
     }
 
-    public class FiftyDayPlan : IRentalPlan
+    public class FortyFiveDayPlan : RentalPlanBase
     {
-        private const decimal DAILY_RATE = 18m;
-        private const decimal TERMINATION_RATE = 1m;
+        public FortyFiveDayPlan() : base(20m, 0.8m) { }
+    }
 
-        public decimal DailyRate => DAILY_RATE;
-        public decimal EarlyTerminationRate => TERMINATION_RATE;
+    public class FiftyDayPlan : RentalPlanBase
+    {
+        public FiftyDayPlan() : base(18m, 1m) { }
     }
 }

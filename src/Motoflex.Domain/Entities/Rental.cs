@@ -23,11 +23,11 @@
         {
             FinishAt = Plan switch
             {
-                Plan.A => BeginAt.AddDays(6),
-                Plan.B => BeginAt.AddDays(14),
-                Plan.C => BeginAt.AddDays(29),
-                Plan.D => BeginAt.AddDays(44),
-                Plan.E => BeginAt.AddDays(49),
+                Plan.SevenDays => BeginAt.AddDays(6),
+                Plan.FifteenDays => BeginAt.AddDays(14),
+                Plan.ThirtyDays => BeginAt.AddDays(29),
+                Plan.FortyFiveDays => BeginAt.AddDays(44),
+                Plan.FiftyDays => BeginAt.AddDays(49),
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
@@ -35,10 +35,10 @@
 
     public enum Plan
     {
-        A,
-        B,
-        C,
-        D,
-        E
+        SevenDays,
+        FifteenDays,
+        ThirtyDays,
+        FortyFiveDays,
+        FiftyDays
     }
 }

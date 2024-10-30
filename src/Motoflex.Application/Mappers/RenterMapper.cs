@@ -6,15 +6,12 @@ namespace Motoflex.Application.Mappers
     public static class RenterMapper
     {
         public static Renter Map(this CreateRenter request)
-        {
-            // ArgumentNullException.ThrowIfNull(request);
-            return new Renter(
+            => new(
                 request.Name,
                 request.Cnpj,
                 request.BirthDate,
                 request.Cnh,
                 request.CnhType
                 );
-        }
     }
 }

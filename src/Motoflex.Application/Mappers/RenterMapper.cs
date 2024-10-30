@@ -7,6 +7,7 @@ namespace Motoflex.Application.Mappers
     {
         public static Renter Map(this CreateRenter request)
         {
+            // ArgumentNullException.ThrowIfNull(request);
             return new Renter(
                 request.Name,
                 request.Cnpj,

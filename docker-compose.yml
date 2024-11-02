@@ -1,6 +1,32 @@
+name: motoflex
+
 services:
-  motoflex.api:
-    image: ${DOCKER_REGISTRY-}motoflexapi
+  api:
+    image: app
     build:
       context: .
       dockerfile: src/Motoflex.Api/Dockerfile
+    container_name: motoflex-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+
+  db:
+    image: postgres
+    restart: always
+    container_name: motoflex-postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "root"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+    environment:
+      POSTGRES_PASSWORD: "123456"
+    ports:
+      - "5432:5432"

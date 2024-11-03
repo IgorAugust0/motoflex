@@ -9,32 +9,32 @@ namespace Motoflex.Infrastructure.Repositories
     {
         protected readonly AppDbContext _context = context;
 
-        public virtual IQueryable<T> Get(Guid id) // remove virtual if something goes wrong
+        // public virtual IQueryable<T> Get(Guid id) // remove virtual if something goes wrong
+        // {
+        //     return _context.Set<T>().Where(x => x.Id == id);
+        // }
+
+        // public IQueryable<T> Get()
+        // {
+        //     return _context.Set<T>();
+        // }
+
+        public async Task<IQueryable<T>> GetAsync()
         {
-            return _context.Set<T>().Where(x => x.Id == id);
+            var result = await _context.Set<T>()
+                .AsNoTracking()
+                .ToListAsync();
+            return result.AsQueryable();
         }
 
-        public IQueryable<T> Get()
+        public virtual async Task<IQueryable<T>> GetByIdAsync(Guid id)
         {
-            return _context.Set<T>();
+            var result = await _context.Set<T>()
+                .Where(x => x.Id == id)
+                .AsNoTracking()
+                .ToListAsync();
+            return result.AsQueryable();
         }
-
-        //public virtual async Task<IQueryable<T>> GetAsync(Guid id)
-        //{
-        //    var result = await _context.Set<T>()
-        //        .Where(x => x.Id == id)
-        //        .AsNoTracking()
-        //        .ToListAsync();
-        //    return result.AsQueryable();
-        //}
-
-        //public async Task<IQueryable<T>> GetAsync()
-        //{
-        //    var result = await _context.Set<T>()
-        //        .AsNoTracking()
-        //        .ToListAsync();
-        //    return result.AsQueryable();
-        //}
 
         public async Task InsertAsync(T entity)
         {

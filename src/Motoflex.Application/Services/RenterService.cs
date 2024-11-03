@@ -32,19 +32,20 @@ namespace Motoflex.Application.Services
             _storage = storage;
         }
 
-        public IEnumerable<Renter> Get()
+        public async Task<IEnumerable<Renter>> GetAsync()
         {
-            return _repository.Get();
+            return await _repository.GetAsync();
         }
 
-        public Renter? Get(Guid id)
+        public async Task<Renter?> GetByIdAsync(Guid id)
         {
             if (id == Guid.Empty)
             {
                 _notificationContext.AddNotification("Invalid renter ID");
                 return null;
             }
-            return _repository.Get(id).FirstOrDefault();
+            var renter = await _repository.GetByIdAsync(id);
+            return renter.SingleOrDefault();
         }
 
         public async Task<Renter?> GetRentalsAsync(Guid id)
@@ -68,7 +69,7 @@ namespace Motoflex.Application.Services
 
             try
             {
-                if (!ValidateNewRenter(renter))
+                if (!await ValidateNewRenterAsync(renter))
                 {
                     return false;
                 }
@@ -95,12 +96,11 @@ namespace Motoflex.Application.Services
 
             try
             {
-                var renter = ValidateRenterImageUpdate(id, image);
+                var renter = await ValidateRenterImageUpdateAsync(id, image);
                 if (renter == null) return null;
 
-                var imageUrl = await UploadRenterImage(renter, image);
-                if (string.IsNullOrEmpty(imageUrl))
-                    return null;
+                var imageUrl = await UploadRenterImageAsync(renter, image);
+                if (string.IsNullOrEmpty(imageUrl)) return null;
 
                 renter.CnhImage = imageUrl;
                 await _repository.UpdateAsync(renter);
@@ -116,9 +116,9 @@ namespace Motoflex.Application.Services
             }
         }
 
-        private bool ValidateNewRenter(Renter renter)
+        private async Task<bool> ValidateNewRenterAsync(Renter renter)
         {
-            var existingRenters = Get();
+            var existingRenters = await GetAsync();
 
             var cnhUsed = existingRenters.Any(x => x.Cnh == renter.Cnh);
             var cnpjUsed = existingRenters.Any(x => x.Cnpj == renter.Cnpj);
@@ -136,9 +136,9 @@ namespace Motoflex.Application.Services
             return !_notificationContext.HasNotifications;
         }
 
-        private Renter? ValidateRenterImageUpdate(Guid id, File image)
+        private async Task<Renter?> ValidateRenterImageUpdateAsync(Guid id, File image)
         {
-            var renter = Get(id);
+            var renter = await GetByIdAsync(id);
             if (renter == null)
             {
                 _notificationContext.AddNotification(ErrorNotifications.RenterNotFound);
@@ -154,7 +154,7 @@ namespace Motoflex.Application.Services
             return renter;
         }
 
-        private async Task<string?> UploadRenterImage(Renter renter, File image)
+        private async Task<string?> UploadRenterImageAsync(Renter renter, File image)
         {
             try
             {

@@ -49,7 +49,7 @@ namespace Motoflex.Application.Services
                     return false;
                 }
 
-                var motorcycle = AssignMotorcycle();
+                var motorcycle = await AssignMotorcycleAsync();
                 if (motorcycle == null) return false;
 
                 await CompleteRentalAssignmentAsync(rental, motorcycle);
@@ -73,7 +73,7 @@ namespace Motoflex.Application.Services
 
             try
             {
-                var rental = _repository.Get(id).FirstOrDefault();
+                var rental = (await _repository.GetByIdAsync(id)).FirstOrDefault();
                 if (rental == null || !ValidateReturn(rental, renterId))
                 {
                     return 0;
@@ -113,10 +113,10 @@ namespace Motoflex.Application.Services
             return true;
         }
 
-        private Motorcycle? AssignMotorcycle()
+        private async Task<Motorcycle?> AssignMotorcycleAsync()
         {
-            var motorcycles = _motorcycleService.GetAvailable();
-            var motorcycle = motorcycles.FirstOrDefault();
+            var motorcycle = (await _motorcycleService.GetAvailableAsync()).FirstOrDefault();
+            // var motorcycle = motorcycles.FirstOrDefault();
             if (motorcycle == null)
             {
                 _notificationContext.AddNotification(ErrorNotifications.NoMotorcyclesAvailable);
@@ -129,7 +129,7 @@ namespace Motoflex.Application.Services
         private async Task CompleteRentalAssignmentAsync(Rental rental, Motorcycle motorcycle)
         {
             motorcycle.Available = false;
-            _motorcycleService.UpdateMotorcycle(motorcycle);
+            await _motorcycleService.UpdateMotorcycleAsync(motorcycle);
 
             rental.Motorcycle = motorcycle;
             await _repository.InsertAsync(rental);

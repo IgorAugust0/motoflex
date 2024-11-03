@@ -7,16 +7,25 @@ namespace Motoflex.Infrastructure.Repositories
 {
     public class MotorcycleRepository(AppDbContext context) : BaseRepository<Motorcycle>(context), IMotoRepository
     {
-        public IQueryable<Motorcycle> GetByLicensePlate(string licensePlate)
+        public async Task<IEnumerable<Motorcycle>> GetByLicensePlateAsync(string licensePlate)
         {
-            return _context.Set<Motorcycle>()
-                .Where(m => EF.Functions.Like(m.LicensePlate, $"{licensePlate}%"));
+            return await _context.Set<Motorcycle>()
+                .Where(m => EF.Functions.Like(m.LicensePlate, $"{licensePlate}%"))
+                .ToListAsync();
         }
 
-        public IQueryable<Motorcycle> GetRentals()
+        public async Task<IEnumerable<Motorcycle>> GetRentalsAsync()
         {
-            return _context.Set<Motorcycle>()
-                .Include(m => m.Rentals); // nameof(Motorcycle.Rentals)
+            return await _context.Set<Motorcycle>()
+                .Include(m => m.Rentals)
+                .ToListAsync();
+        }
+
+        public async Task<Motorcycle?> GetWithRentalsAsync(Guid id)
+        {
+            return await _context.Set<Motorcycle>()
+                .Include(m => m.Rentals)
+                .FirstOrDefaultAsync(m => m.Id == id);
         }
     }
 }

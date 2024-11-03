@@ -7,9 +7,15 @@ namespace Motoflex.Infrastructure.Repositories
 {
     public class RentalRepository(AppDbContext context) : BaseRepository<Rental>(context), IRentalRepository
     {
-        public override IQueryable<Rental> Get(Guid id) // remove override if something goes wrong
+        public override async Task<IQueryable<Rental>> GetByIdAsync(Guid id)
         {
-            return base.Get(id).Include(ra => ra.Motorcycle);
+            var result = await _context.Set<Rental>()
+                .Include(ra => ra.Motorcycle)
+                // .FirstOrDefaultAsync(r => r.Id == id); if just using Task<Rental>
+                .Where(x => x.Id == id)
+                .AsNoTracking()
+                .ToListAsync();
+            return result.AsQueryable();
         }
     }
 }

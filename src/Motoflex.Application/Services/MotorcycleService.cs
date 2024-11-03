@@ -23,7 +23,7 @@ namespace Motoflex.Application.Services
             _logger = logger;
         }
 
-        public IEnumerable<Motorcycle> GetByLicensePlate(string licensePlate)
+        public async Task<IEnumerable<Motorcycle>> GetByLicensePlateAsync(string licensePlate)
         {
             if (string.IsNullOrWhiteSpace(licensePlate))
             {
@@ -31,16 +31,16 @@ namespace Motoflex.Application.Services
                 return [];
             }
 
-            return _repository.GetByLicensePlate(licensePlate);
+            return await _repository.GetByLicensePlateAsync(licensePlate);
         }
 
-        public IEnumerable<Motorcycle> GetAvailable()
+        public async Task<IEnumerable<Motorcycle>> GetAvailableAsync()
         {
-            var motorcycles = _repository.Get();
+            var motorcycles = await _repository.GetAsync();
             return motorcycles.Where(m => m.Available);
         }
 
-        public async Task InsertMotorcycleAsync(Motorcycle motorcycle)
+        public async Task<bool> InsertMotorcycleAsync(Motorcycle motorcycle)
         {
             if (motorcycle == null)
             {
@@ -50,24 +50,25 @@ namespace Motoflex.Application.Services
 
             try
             {
-                if (IsLicensePlateUsed(motorcycle.LicensePlate))
+                if (await IsLicensePlateUsedAsync(motorcycle.LicensePlate))
                 {
                     _notificationContext.AddNotification(ErrorNotifications.LicensePlateAlreadyExists);
-                    return;
+                    return false;
                 }
 
                 await _repository.InsertAsync(motorcycle);
-                _logger.LogInformation($"Motorcycle inserted successfully. Id: {motorcycle.Id}");
+                _logger.LogInformation("Motorcycle inserted successfully. Id: {MotorcycleId}", motorcycle.Id);
+                return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while inserting motorcycle");
                 _notificationContext.AddNotification("Unexpected error occurred while inserting motorcycle");
+                return false;
             }
         }
 
-        // TODO: fix CS8603 / CA2254
-        public Motorcycle? UpdateMotorcycleLicensePlate(Guid id, string licensePlate)
+        public async Task<Motorcycle?> UpdateMotorcycleLicensePlateAsync(Guid id, string licensePlate)
         {
             if (id == Guid.Empty || string.IsNullOrWhiteSpace(licensePlate))
             {
@@ -77,10 +78,10 @@ namespace Motoflex.Application.Services
 
             try
             {
-                var motorcycle = GetMotorcycleById(id);
+                var motorcycle = await GetMotorcycleByIdAsync(id);
                 if (motorcycle == null) return null;
 
-                if (IsLicensePlateUsed(licensePlate))
+                if (await IsLicensePlateUsedAsync(licensePlate))
                 {
                     _notificationContext.AddNotification(ErrorNotifications.LicensePlateAlreadyExists);
                     return null;
@@ -89,7 +90,7 @@ namespace Motoflex.Application.Services
                 _logger.LogInformation("MotorcycleId:{MotorcycleId}. LicensePlate from {OldLicensePlate} to {NewLicensePlate}", motorcycle.Id, motorcycle.LicensePlate, licensePlate);
 
                 motorcycle.LicensePlate = licensePlate;
-                UpdateMotorcycle(motorcycle);
+                await UpdateMotorcycleAsync(motorcycle);
 
                 return motorcycle;
             }
@@ -101,54 +102,59 @@ namespace Motoflex.Application.Services
             }
         }
 
-        public void UpdateMotorcycle(Motorcycle motorcycle)
+        public async Task UpdateMotorcycleAsync(Motorcycle motorcycle)
         {
             ArgumentNullException.ThrowIfNull(motorcycle, nameof(motorcycle));
-            _repository.UpdateAsync(motorcycle);
+            await _repository.UpdateAsync(motorcycle);
         }
 
-        public void DeleteMotorcycle(Guid id)
+        public async Task<bool> DeleteMotorcycleAsync(Guid id)
         {
             if (id == Guid.Empty)
             {
                 _notificationContext.AddNotification("Invalid motorcycle ID");
-                return;
+                return false;
             }
 
             try
             {
-                var motorcycle = _repository.GetRentals().Where(m => m.Id == id).FirstOrDefault();
+                // var rentals = await _repository.GetRentalsAsync();
+                // var motorcycle = rentals.Where(m => m.Id == id).FirstOrDefault();
+                var motorcycle = await _repository.GetWithRentalsAsync(id);
                 if (motorcycle == null)
                 {
                     _notificationContext.AddNotification(ErrorNotifications.MotorcycleNotFound);
-                    return;
+                    return false;
                 }
 
                 if (motorcycle.Rentals.Count != 0)
                 {
                     _notificationContext.AddNotification(ErrorNotifications.MotorcycleHasRentalHistory);
-                    return;
+                    return false;
                 }
 
-                _repository.DeleteAsync(id);
+                await _repository.DeleteAsync(id);
                 _logger.LogInformation("MotorcycleId:{MotorcycleId}. Deleted.", motorcycle.Id);
+                return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error deleting motorcycle. Id: {id}");
                 _notificationContext.AddNotification("Unexpected error occurred while deleting motorcycle");
+                return false;
             }
         }
 
-        private bool IsLicensePlateUsed(string licensePlate)
+        private async Task<bool> IsLicensePlateUsedAsync(string licensePlate)
         {
-            var existingMotorcycles = GetByLicensePlate(licensePlate);
+            var existingMotorcycles = await GetByLicensePlateAsync(licensePlate);
             return existingMotorcycles.Any();
         }
 
-        private Motorcycle GetMotorcycleById(Guid id)
+        private async Task<Motorcycle> GetMotorcycleByIdAsync(Guid id)
         {
-            var motorcycle = _repository.Get(id).FirstOrDefault();
+            var motorcycles = await _repository.GetByIdAsync(id);
+            var motorcycle = motorcycles.FirstOrDefault();
             if (motorcycle == null)
             {
                 _notificationContext.AddNotification(ErrorNotifications.MotorcycleNotFound);

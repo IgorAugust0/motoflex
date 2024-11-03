@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Motoflex.Domain.Interfaces.Notifications;
 using Motoflex.Domain.Interfaces.Repositories;
 using Motoflex.Infrastructure.Contexts;
 using Motoflex.Infrastructure.Repositories;
@@ -20,6 +21,7 @@ namespace Motoflex.Infrastructure
 
         public static void AddRepositories(this IServiceCollection services)
         {
+            services.AddScoped<INotificationContext, NotificationContext>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IMotoRepository, MotorcycleRepository>();
             services.AddScoped<IRenterRepository, RenterRepository>();

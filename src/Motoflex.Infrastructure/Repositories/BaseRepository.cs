@@ -1,4 +1,5 @@
-﻿using Motoflex.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Motoflex.Domain.Entities;
 using Motoflex.Domain.Interfaces.Repositories;
 using Motoflex.Infrastructure.Contexts;
 
@@ -17,6 +18,23 @@ namespace Motoflex.Infrastructure.Repositories
         {
             return _context.Set<T>();
         }
+
+        //public virtual async Task<IQueryable<T>> GetAsync(Guid id)
+        //{
+        //    var result = await _context.Set<T>()
+        //        .Where(x => x.Id == id)
+        //        .AsNoTracking()
+        //        .ToListAsync();
+        //    return result.AsQueryable();
+        //}
+
+        //public async Task<IQueryable<T>> GetAsync()
+        //{
+        //    var result = await _context.Set<T>()
+        //        .AsNoTracking()
+        //        .ToListAsync();
+        //    return result.AsQueryable();
+        //}
 
         public async Task InsertAsync(T entity)
         {

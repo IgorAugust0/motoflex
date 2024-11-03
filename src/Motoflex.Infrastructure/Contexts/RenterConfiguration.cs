@@ -1,6 +1,6 @@
-﻿using Motoflex.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Motoflex.Domain.Entities;
 
 namespace Motoflex.Infrastructure.Contexts
 {
@@ -25,7 +25,7 @@ namespace Motoflex.Infrastructure.Contexts
                 .IsRequired();
 
             builder
-                .Property(m => m.Birthdate)
+                .Property(m => m.BirthDate)
                 .HasColumnType("Date")
                 .HasColumnName("birthdate")
                 .IsRequired();

@@ -7,11 +7,12 @@ namespace Motoflex.Infrastructure.Repositories
 {
     public class OrderRepository(AppDbContext context) : BaseRepository<Order>(context), IOrderRepository
     {
-        public IQueryable<Order> GetNotifiedOrders(Guid id)
+        public async Task<Order?> GetNotifiedOrdersAsync(Guid id)
         {
-            return _context.Set<Order>()
+            return await _context.Set<Order>()
                 .Where(p => p.Id == id)
-                .Include(n => n.NotifiedRenters);
+                .Include(n => n.NotifiedRenters)
+                .FirstOrDefaultAsync();
         }
     }
 }

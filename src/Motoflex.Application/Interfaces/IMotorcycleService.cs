@@ -10,12 +10,5 @@ namespace Motoflex.Application.Interfaces
         Task<Motorcycle?> UpdateMotorcycleLicensePlateAsync(Guid id, string licensePlate);
         Task UpdateMotorcycleAsync(Motorcycle motorcycle);
         Task<bool> DeleteMotorcycleAsync(Guid id);
-
-        // IEnumerable<Motorcycle> GetByLicensePlate(string licensePlate);
-        // IEnumerable<Motorcycle> GetAvailable();
-        // Task InsertMotorcycleAsync(Motorcycle motorcycle);
-        // Motorcycle? UpdateMotorcycleLicensePlate(Guid id, string licensePlate);
-        // void UpdateMotorcycle(Motorcycle moto);
-        // void DeleteMotorcycle(Guid id);
     }
 }

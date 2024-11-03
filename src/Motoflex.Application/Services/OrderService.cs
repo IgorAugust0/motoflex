@@ -46,15 +46,16 @@ namespace Motoflex.Application.Services
             return await _repository.GetNotifiedOrdersAsync(id);
         }
 
-        public IEnumerable<Order> Get()
+        public async Task<IEnumerable<Order>> GetAsync()
         {
-            return _repository.Get();
+            return await _repository.GetAsync();
         }
 
         private async Task<Order?> GetByIdAsync(Guid id)
         {
             if (id == Guid.Empty) return null;
-            return await _repository.GetByIdAsync(id);
+            var order = await _repository.GetByIdAsync(id);
+            return order.SingleOrDefault(); // FirstOrDefault()
         }
 
         public async Task<Order?> InsertOrderAsync(Order order)
@@ -68,11 +69,11 @@ namespace Motoflex.Application.Services
             try
             {
                 await _repository.InsertAsync(order);
-                
+
                 var command = new NotifyOrderRentersCommand(order.Id);
                 await _publisherNotification.PublishAsync(command);
-                
-                _logger.LogInformation($"Order created successfully. Id: {order.Id}");
+
+                _logger.LogInformation("Order created successfully. Id: {OrderId}", order.Id);
                 return order;
             }
             catch (Exception ex)
@@ -106,12 +107,12 @@ namespace Motoflex.Application.Services
                 order.Renter = renter;
                 await UpdateOrderAsync(order);
 
-                _logger.LogInformation($"Order {id} accepted by renter {renterId}");
+                _logger.LogInformation("Order {OrderId} accepted by renter {RenterId}", id, renterId);
                 return true;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error accepting order. OrderId: {id}, RenterId: {renterId}");
+                _logger.LogError(ex, "Error accepting order. OrderId: {OrderId}, RenterId: {RenterId}", id, renterId);
                 _notificationContext.AddNotification("Unexpected error occurred while accepting order");
                 return false;
             }
@@ -130,15 +131,15 @@ namespace Motoflex.Application.Services
                 var order = await GetByIdAsync(id);
                 if (!ValidateOrderDelivery(order, renterId)) return false;
 
-                order.Status = Status.Delivered;
+                order!.Status = Status.Delivered; // won't be null because of previous validation
                 await UpdateOrderAsync(order);
 
-                _logger.LogInformation($"OrderId: {order.Id}. Delivered by renter: {renterId}");
+                _logger.LogInformation("OrderId: {OrderId}. Delivered by renter: {RenterId}", order.Id, renterId);
                 return true;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error finishing order. OrderId: {id}, RenterId: {renterId}");
+                _logger.LogError(ex, "Error finishing order. OrderId: {OrderId}, RenterId: {RenterId}", id, renterId);
                 _notificationContext.AddNotification("Unexpected error occurred while finishing order");
                 return false;
             }
@@ -146,7 +147,7 @@ namespace Motoflex.Application.Services
 
         private async Task<(bool isValid, Order? order, Renter? renter)> ValidateOrderAcceptanceAsync(Guid orderId, Guid renterId)
         {
-            var renter = await _renterService.GetAsync(renterId);
+            var renter = await _renterService.GetByIdAsync(renterId);
             if (renter == null)
             {
                 _notificationContext.AddNotification(ErrorNotifications.OrderNotFound);
@@ -160,7 +161,7 @@ namespace Motoflex.Application.Services
                 return (false, null, null);
             }
 
-            if (!order.Notifieds.Any(e => e.Id == renterId))
+            if (!order.NotifiedRenters.Any(e => e.Id == renterId))
             {
                 _notificationContext.AddNotification(ErrorNotifications.RenterNotNotified);
                 return (false, null, null);

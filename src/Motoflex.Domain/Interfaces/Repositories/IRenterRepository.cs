@@ -4,7 +4,10 @@ namespace Motoflex.Domain.Interfaces.Repositories
 {
     public interface IRenterRepository : IBaseRepository<Renter>
     {
-        IQueryable<Renter> GetAllRentals();
-        IQueryable<Renter> GetAvailableRentersForOrder();
+        Task<IEnumerable<Renter>> GetAllRentalsAsync();
+        Task<IEnumerable<Renter>> GetAvailableRentersForOrderAsync();
+
+        // IQueryable<Renter> GetAllRentals();
+        // IQueryable<Renter> GetAvailableRentersForOrder();
     }
 }

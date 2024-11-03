@@ -47,18 +47,18 @@ namespace Motoflex.Application.Services
             return _repository.Get(id).FirstOrDefault();
         }
 
-        public Renter? GetRentals(Guid id)
+        public async Task<Renter?> GetRentalsAsync(Guid id)
         {
             if (id == Guid.Empty)
             {
                 _notificationContext.AddNotification("Invalid renter ID");
                 return null;
             }
-            var rentals = _repository.GetAllRentals();
+            var rentals = await _repository.GetAllRentalsAsync();
             return rentals.FirstOrDefault(e => e.Id == id);
         }
 
-        public Task InsertRenterAsync(Renter renter)
+        public async Task<bool> InsertRenterAsync(Renter renter)
         {
             if (renter == null)
             {
@@ -70,18 +70,18 @@ namespace Motoflex.Application.Services
             {
                 if (!ValidateNewRenter(renter))
                 {
-                    return Task.FromResult(false);
+                    return false;
                 }
 
-                _repository.InsertAsync(renter);
+                await _repository.InsertAsync(renter);
                 _logger.LogInformation("Renter created successfully. Id: {RenterId}", renter.Id);
-                return Task.FromResult(true);
+                return true;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while creating renter");
                 _notificationContext.AddNotification("Unexpected error occurred while creating renter");
-                return Task.FromResult(false);
+                return false;
             }
         }
 

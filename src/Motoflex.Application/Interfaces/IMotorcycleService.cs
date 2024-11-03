@@ -7,7 +7,7 @@ namespace Motoflex.Application.Interfaces
         IEnumerable<Motorcycle> GetByLicensePlate(string licensePlate);
         IEnumerable<Motorcycle> GetAvailable();
         Task InsertMotorcycleAsync(Motorcycle motorcycle);
-        Motorcycle UpdateMotorcycleLicensePlate(Guid id, string licensePlate);
+        Motorcycle? UpdateMotorcycleLicensePlate(Guid id, string licensePlate);
         void UpdateMotorcycle(Motorcycle moto);
         void DeleteMotorcycle(Guid id);
 

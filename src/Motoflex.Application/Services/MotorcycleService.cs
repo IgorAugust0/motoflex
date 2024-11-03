@@ -67,7 +67,7 @@ namespace Motoflex.Application.Services
         }
 
         // TODO: fix CS8603 / CA2254
-        public Motorcycle UpdateMotorcycleLicensePlate(Guid id, string licensePlate)
+        public Motorcycle? UpdateMotorcycleLicensePlate(Guid id, string licensePlate)
         {
             if (id == Guid.Empty || string.IsNullOrWhiteSpace(licensePlate))
             {

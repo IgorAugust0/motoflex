@@ -6,5 +6,8 @@ namespace Motoflex.Domain.Interfaces.Repositories
     {
         IQueryable<Motorcycle> GetByLicensePlate(string licensePlate);
         IQueryable<Motorcycle> GetRentals();
+
+        //Task<IQueryable<Motorcycle>> GetByLicensePlateAsync(string licensePlate);
+        //Task<IQueryable<Motorcycle>> GetRentalsAsync();
     }
 }

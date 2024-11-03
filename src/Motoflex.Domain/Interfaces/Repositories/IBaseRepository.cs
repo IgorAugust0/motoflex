@@ -6,6 +6,10 @@ namespace Motoflex.Domain.Interfaces.Repositories
     {
         IQueryable<T> Get(Guid id);
         IQueryable<T> Get();
+
+        //Task<IQueryable<T>> GetAsync(Guid id);
+        //Task<IQueryable<T>> GetAsync();
+
         Task InsertAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);

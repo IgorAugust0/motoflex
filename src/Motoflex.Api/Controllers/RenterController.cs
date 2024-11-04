@@ -84,11 +84,12 @@ namespace Motoflex.Api.Controllers
             return Ok(new ResponseModel<Renter>(renter));
         }
 
-        // [HttpGet]
-        // public async Task<ActionResult<ResponseModel<IEnumerable<Renter>>>> Get()
-        // {
-        //     var renters = await _service.GetAsync();
-        //     return Ok(new ResponseModel<IEnumerable<Renter>>(renters));
-        // }
+        [HttpGet]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<ActionResult<ResponseModel<IEnumerable<Renter>>>> Get()
+        {
+            var renters = await _service.GetAsync();
+            return Ok(new ResponseModel<IEnumerable<Renter>>(renters));
+        }
     }
 }

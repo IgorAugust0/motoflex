@@ -34,6 +34,33 @@ namespace Motoflex.Application.Services
             _logger = logger;
         }
 
+        public async Task<Rental?> GetByIdAsync(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                _notificationContext.AddNotification("Invalid rental ID");
+                return null;
+            }
+
+            try
+            {
+                var rental = (await _repository.GetByIdAsync(id)).FirstOrDefault();
+
+                if (rental == null)
+                {
+                    _notificationContext.AddNotification(ErrorNotifications.RentalNotFound);
+                }
+
+                return rental;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving rental. RentalId: {RentalId}", id);
+                _notificationContext.AddNotification("Unexpected error occurred while retrieving rental");
+                return null;
+            }
+        }
+
         public async Task<bool> InsertRentalAsync(Rental rental)
         {
             if (rental == null)
@@ -44,10 +71,7 @@ namespace Motoflex.Application.Services
 
             try
             {
-                if (!await ValidateRentalRequestAsync(rental))
-                {
-                    return false;
-                }
+                if (!await ValidateRentalRequestAsync(rental)) return false;
 
                 var motorcycle = await AssignMotorcycleAsync();
                 if (motorcycle == null) return false;
@@ -74,10 +98,7 @@ namespace Motoflex.Application.Services
             try
             {
                 var rental = (await _repository.GetByIdAsync(id)).FirstOrDefault();
-                if (rental == null || !ValidateReturn(rental, renterId))
-                {
-                    return 0;
-                }
+                if (rental == null || !ValidateReturn(rental, renterId)) return 0;
 
                 return await ProcessReturnAsync(rental, returnDate);
             }

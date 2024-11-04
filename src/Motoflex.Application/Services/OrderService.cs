@@ -12,25 +12,25 @@ namespace Motoflex.Application.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _repository;
-        private readonly IPublisher<NotifyOrderRentersCommand> _publisherNotification;
+        // private readonly IPublisher<NotifyOrderRentersCommand> _publisherNotification;
         private readonly IRenterService _renterService;
         private readonly INotificationContext _notificationContext;
         private readonly ILogger<OrderService> _logger;
 
         public OrderService(
             IOrderRepository repository,
-            IPublisher<NotifyOrderRentersCommand> publisherNotification,
+            // IPublisher<NotifyOrderRentersCommand> publisherNotification,
             IRenterService renterService,
             INotificationContext notificationContext,
             ILogger<OrderService> logger)
         {
             ArgumentNullException.ThrowIfNull(repository, nameof(repository));
-            ArgumentNullException.ThrowIfNull(publisherNotification, nameof(publisherNotification));
+            // ArgumentNullException.ThrowIfNull(publisherNotification, nameof(publisherNotification));
             ArgumentNullException.ThrowIfNull(renterService, nameof(renterService));
             ArgumentNullException.ThrowIfNull(notificationContext, nameof(notificationContext));
             ArgumentNullException.ThrowIfNull(logger, nameof(logger));
             _repository = repository;
-            _publisherNotification = publisherNotification;
+            // _publisherNotification = publisherNotification;
             _renterService = renterService;
             _notificationContext = notificationContext;
             _logger = logger;
@@ -71,7 +71,7 @@ namespace Motoflex.Application.Services
                 await _repository.InsertAsync(order);
 
                 var command = new NotifyOrderRentersCommand(order.Id);
-                await _publisherNotification.PublishAsync(command);
+                // await _publisherNotification.PublishAsync(command);
 
                 _logger.LogInformation("Order created successfully. Id: {OrderId}", order.Id);
                 return order;

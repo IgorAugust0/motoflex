@@ -3,8 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Motoflex.Domain.Interfaces.Notifications;
 using Motoflex.Domain.Interfaces.Repositories;
+using Motoflex.Domain.Interfaces.Storage;
 using Motoflex.Infrastructure.Contexts;
 using Motoflex.Infrastructure.Repositories;
+using Motoflex.Infrastructure.Storage;
 
 namespace Motoflex.Infrastructure
 {
@@ -27,6 +29,11 @@ namespace Motoflex.Infrastructure
             services.AddScoped<IRenterRepository, RenterRepository>();
             services.AddScoped<IRentalRepository, RentalRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+        }
+
+        public static void AddAmazonStorage(this IServiceCollection services)
+        {
+            services.AddScoped<IStorage, AmazonStorage>();
         }
 
         public static void ExecuteMigrations(this IServiceProvider provider)

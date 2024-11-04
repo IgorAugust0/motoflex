@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Motoflex.Application\Motoflex.Application.csproj" />
     <ProjectReference Include="..\Motoflex.Domain\Motoflex.Domain.csproj" />
     <ProjectReference Include="..\Motoflex.Infrastructure\Motoflex.Infrastructure.csproj" />
   </ItemGroup>

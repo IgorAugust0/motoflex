@@ -13,12 +13,19 @@ namespace Motoflex.Infrastructure.Storage
 
         public AmazonStorage(IConfiguration configuration /*, IAmazonS3 client*/)
         {
-            _bucketName = configuration["AWS:BucketName"] ?? "aplicacao-storage";
             //_client = client ?? throw new ArgumentNullException(nameof(client));
+            _bucketName = configuration["AWS:BucketName"] ?? "aplicacao-storage";
+            Console.WriteLine($"BucketName: {_bucketName}");
+
+            var accessKey = configuration["AWS:AccessKey"];
+            var secretKey = configuration["AWS:SecretKey"];
+            Console.WriteLine($"AccessKey: {accessKey}");
+            Console.WriteLine($"SecretKey: {secretKey}");
+
             _client = new AmazonS3Client(
-                configuration["AWS:AccessKey"],
-                configuration["AWS:SecretKey"],
-                region: RegionEndpoint.USEast2);
+                accessKey,
+                secretKey,
+                RegionEndpoint.USEast2);
         }
 
         public async Task<string> UploadFile(Stream fileStream, string keyName)
@@ -30,8 +37,8 @@ namespace Motoflex.Infrastructure.Storage
             {
                 var tranUtility = new TransferUtility(_client);
                 await tranUtility.UploadAsync(fileStream, _bucketName, keyName);
-                return $"https://{_bucketName}.s3.{RegionEndpoint.USEast2.SystemName}.amazonaws.com/{keyName}";
                 // _client.Config.RegionEndpoint.SystemName
+                return $"https://{_bucketName}.s3.{RegionEndpoint.USEast2.SystemName}.amazonaws.com/{keyName}";
             }
             catch (AmazonS3Exception ex) when (ex.ErrorCode == "InvalidAccessKeyId" || ex.ErrorCode == "InvalidSecurity")
             {

@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace Motoflex.Api.Controllers
 {
     [ApiController]
+    //[Authorize(Roles = Roles.Admin)]
     // [Route("api/[controller]")]
     [Route("motos")]
     [Produces("application/json")]
     [Tags("motos")]
-    //[Authorize(Roles = Roles.Admin)]
     public class MotorcycleController : ControllerBase
     {
         private readonly IMotorcycleService _service;
@@ -45,7 +45,7 @@ namespace Motoflex.Api.Controllers
             var success = await _service.InsertMotorcycleAsync(motorcycle);
 
             if (!success || _notificationContext.HasNotifications)
-                return BadRequest(new ResponseModel<Motorcycle?>(null, [.. _notificationContext.Notifications]));
+                return BadRequest(new ResponseModel<Motorcycle?>(null, _notificationContext.Notifications)); // [.. _notificationContext.Notifications]
 
             // return CreatedAtAction(nameof(Post), new ResponseModel<Motorcycle>(motorcycle));
             return CreatedAtAction(nameof(GetById), new { id = motorcycle.Id }, new ResponseModel<Motorcycle>(motorcycle));
@@ -64,8 +64,9 @@ namespace Motoflex.Api.Controllers
         {
             var motorcycles = await _service.GetByLicensePlateAsync(licensePlate ?? string.Empty);
 
-            // if (_notificationContext.HasNotifications)
-            //     return BadRequest(new ResponseModel<IEnumerable<Motorcycle>>(null, [.. _notificationContext.Notifications]));
+            // return empty list if licensePlate is empty
+            if (_notificationContext.HasNotifications)
+                return BadRequest(new ResponseModel<IEnumerable<Motorcycle>>([], _notificationContext.Notifications));
 
             return Ok(new ResponseModel<IEnumerable<Motorcycle>>(motorcycles));
         }
@@ -88,7 +89,7 @@ namespace Motoflex.Api.Controllers
             var motorcycle = await _service.UpdateMotorcycleLicensePlateAsync(id, request.LicensePlate!);
 
             if (_notificationContext.HasNotifications)
-                return BadRequest(new ResponseModel<Motorcycle?>(null, [.. _notificationContext.Notifications]));
+                return BadRequest(new ResponseModel<Motorcycle?>(null, _notificationContext.Notifications));
 
             if (motorcycle == null) return NotFound();
 
@@ -137,7 +138,7 @@ namespace Motoflex.Api.Controllers
             var success = await _service.DeleteMotorcycleAsync(id);
 
             if (_notificationContext.HasNotifications)
-                return BadRequest(new ResponseModel<object?>(null, [.. _notificationContext.Notifications]));
+                return BadRequest(new ResponseModel<object?>(null, _notificationContext.Notifications));
 
             if (!success) return NotFound();
 

@@ -17,7 +17,7 @@ namespace Motoflex.Domain.Utilities
 
         // Validation Messages
         public const string InvalidImageFormat = "A imagem deve ser do tipo png ou bmp";
-        public const string ImageRequired = "Necessário enviar uma imagem";
+        public const string ImageRequired = "É necessário enviar uma imagem";
 
         // Business Rule Violation Messages
         public const string MotorcycleHasRentalHistory = "Moto já alugada anteriormente";

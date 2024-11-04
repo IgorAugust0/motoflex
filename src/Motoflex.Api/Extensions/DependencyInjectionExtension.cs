@@ -6,6 +6,8 @@ namespace Motoflex.Api.Extensions
 {
     public static class DependencyInjectionExtension
     {
+        private static readonly string[] OrderedGroups = ["motos", "entregadores"];
+
         public static void AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Configure Logging
@@ -29,7 +31,10 @@ namespace Motoflex.Api.Extensions
 
             // TODO: Configure API Documentation
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.OrderActionsBy(apiDesc => Array.IndexOf(OrderedGroups, apiDesc.GroupName).ToString("D2"));
+            });
 
             // Configure Database Context and Repositories
             services.AddPSQLContext(configuration);

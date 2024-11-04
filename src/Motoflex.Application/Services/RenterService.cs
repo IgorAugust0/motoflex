@@ -69,10 +69,7 @@ namespace Motoflex.Application.Services
 
             try
             {
-                if (!await ValidateNewRenterAsync(renter))
-                {
-                    return false;
-                }
+                if (!await ValidateNewRenterAsync(renter)) return false;
 
                 await _repository.InsertAsync(renter);
                 _logger.LogInformation("Renter created successfully. Id: {RenterId}", renter.Id);

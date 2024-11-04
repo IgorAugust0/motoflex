@@ -1,5 +1,6 @@
 ﻿using Motoflex.Infrastructure;
 using Motoflex.Application;
+using System.Text.Json.Serialization;
 
 namespace Motoflex.Api.Extensions
 {
@@ -19,10 +20,16 @@ namespace Motoflex.Api.Extensions
             // TODO: Configure Authentication
 
             // TODO: Configure Controllers and JSON Options
-            // services.AddControllers().AddJsonOptions(options => { /* */});
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                options.JsonSerializerOptions.WriteIndented = true;
+            });
 
             // TODO: Configure API Documentation
-            //services.AddEndpointsApiExplorer();
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
 
             // Configure Database Context and Repositories
             services.AddPSQLContext(configuration);

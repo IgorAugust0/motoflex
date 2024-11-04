@@ -139,7 +139,7 @@ namespace Motoflex.Application.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error deleting motorcycle. Id: {id}");
+                _logger.LogError(ex, "Error deleting motorcycle. Id: {MotorcycleId}", id);
                 _notificationContext.AddNotification("Unexpected error occurred while deleting motorcycle");
                 return false;
             }
@@ -151,7 +151,7 @@ namespace Motoflex.Application.Services
             return existingMotorcycles.Any();
         }
 
-        private async Task<Motorcycle> GetMotorcycleByIdAsync(Guid id)
+        public async Task<Motorcycle> GetMotorcycleByIdAsync(Guid id)
         {
             var motorcycles = await _repository.GetByIdAsync(id);
             var motorcycle = motorcycles.FirstOrDefault();

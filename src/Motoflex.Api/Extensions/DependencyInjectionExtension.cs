@@ -21,9 +21,15 @@ namespace Motoflex.Api.Extensions
                 logging.AddFilter("Microsoft.Hosting.Lifetime", LogLevel.None);
             });
 
-            // TODO: Configure Authentication
+            // Configure JWT Authentication
+            // services.AddOptions<JwtOptions>()
+            //     .Bind(configuration.GetSection(JwtOptions.SectionName))
+            //     .ValidateDataAnnotations()
+            //     .ValidateOnStart();
+            
+            // services.AddJwtAuthentication(configuration);
 
-            // TODO: Configure Controllers and JSON Options
+            // Configure Controllers and JSON Options
             services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -31,8 +37,8 @@ namespace Motoflex.Api.Extensions
                 options.JsonSerializerOptions.WriteIndented = true;
             });
 
-            // TODO: Configure API Documentation
             services.AddEndpointsApiExplorer();
+            // TODO: Configure Swagger Gen with JWT auth
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Motoflex API", Version = "v1" });

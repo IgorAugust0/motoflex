@@ -1,0 +1,17 @@
+﻿namespace Motoflex.Api.Extensions
+{
+    /// <summary>
+    /// Configuration options for Swagger documentation.
+    /// </summary>
+    /// <remarks>
+    /// This class contains configuration settings used to customize the Swagger/OpenAPI documentation.
+    /// </remarks>
+    public class SwaggerOptions
+    {
+        public const string SectionName = "Swagger";
+        public bool EnableAuthentication { get; init; } = true;
+        public string Title { get; init; } = "Motoflex API";
+        public string Version { get; init; } = "v1";
+        public string Description { get; init; } = "API para gerenciamento de aluguéis de motos e entregadores";
+    }
+}

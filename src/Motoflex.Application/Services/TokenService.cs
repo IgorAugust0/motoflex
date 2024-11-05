@@ -20,7 +20,9 @@ namespace Motoflex.Application.Services
 
         public string GenerateToken(Guid userId, string role)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"] ?? throw new InvalidOperationException("JWT:Secret not configured")));
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_configuration["JWT:Secret"] 
+                ?? throw new InvalidOperationException("JWT:Secret not configured")));
 
             var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),

@@ -13,7 +13,7 @@ namespace Motoflex.Api.Controllers
     [Route("pedidos")]
     [Produces("application/json")]
     [Tags("pedidos")]
-    [ApiExplorerSettings(IgnoreApi = true)] // comment this line to enable this controller
+    [ApiExplorerSettings(IgnoreApi = true)] // comment this line to enable the controller
     public class OrderController : AbstractController
     {
         private readonly IOrderService _service;

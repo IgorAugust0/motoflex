@@ -12,6 +12,6 @@
         public bool EnableAuthentication { get; init; } = true;
         public string Title { get; init; } = "Motoflex API";
         public string Version { get; init; } = "v1";
-        public string Description { get; init; } = "API para gerenciamento de aluguéis de motos e entregadores";
+        public string Description { get; init; } = "API para gerenciar aluguel de motos e entregadores";
     }
 }

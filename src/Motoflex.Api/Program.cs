@@ -14,10 +14,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseApiExceptionHandling();
+
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Services.ExecuteMigrations();
 
 app.Run();

@@ -18,6 +18,8 @@ namespace Motoflex.Domain.Utilities
         // Validation Messages
         public const string InvalidImageFormat = "A imagem deve ser do tipo png ou bmp";
         public const string ImageRequired = "É necessário enviar uma imagem";
+        public const string InvalidId = "ID inválido";
+        public const string AuthenticationError = "Erro ao processar autenticação";
 
         // Business Rule Violation Messages
         public const string MotorcycleHasRentalHistory = "Moto já alugada anteriormente";
@@ -29,30 +31,6 @@ namespace Motoflex.Domain.Utilities
         public const string OrderNotOwnedByRenter = "Pedido não pertence ao entregador";
         public const string OrderStatusInvalid = "Pedido ainda não foi aceito ou já foi entregue";
         public const string RentalAlreadyInactive = "A locação já foi finalizada";
-
-
-        // public const string MotorcycleNotFound = "Motorcycle not found";
-        // public const string OrderNotFound = "Order not found";
-        // public const string RenterNotFound = "Renter not found";
-        // public const string RentalNotFound = "Rental not found";
-        // public const string NoMotorcyclesAvailable = "No motorcycles available";
-
-        // public const string LicensePlateAlreadyExists = "License plate already exists";
-        // public const string DriversLicenseAlreadyExists = "Driver's license already exists";
-        // public const string TaxIdAlreadyExists = "Tax ID already exists";
-
-        // public const string InvalidImageFormat = "The image must be in png or bmp format";
-        // public const string ImageRequired = "An image is required";
-
-        // public const string MotorcycleHasRentalHistory = "Motorcycle has rental history";
-        // public const string RenterHasActiveRental = "Renter already has an active rental";
-        // public const string RenterLacksMotorcycleLicense = "Renter does not have a motorcycle license";
-        // public const string RentalNotOwnedByRenter = "Rental is not owned by the renter";
-        // public const string RenterNotNotified = "Renter was not notified";
-        // public const string OrderNotAvailable = "Order is not available";
-        // public const string OrderNotOwnedByRenter = "Order is not owned by the renter";
-        // public const string OrderStatusInvalid = "Order has not been accepted or has already been delivered";
-        // public const string RentalAlreadyInactive = "The rental has already been completed";
     }
 }
 

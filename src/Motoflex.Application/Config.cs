@@ -13,6 +13,7 @@ namespace Motoflex.Application
             services.AddScoped<IRenterService, RenterService>();
             services.AddScoped<IRentalService, RentalService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<ITokenService, TokenService>();
         }
 
         // TODO: Add command handlers here

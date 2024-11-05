@@ -6,7 +6,7 @@
     /// <remarks>
     /// This class contains configuration settings used to customize the Swagger/OpenAPI documentation.
     /// </remarks>
-    public class SwaggerOptions
+    public sealed class SwaggerOptions
     {
         public const string SectionName = "Swagger";
         public bool EnableAuthentication { get; init; } = true;

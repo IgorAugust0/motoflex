@@ -6,7 +6,7 @@ using Motoflex.Domain.Interfaces.Storage;
 
 namespace Motoflex.Infrastructure.Storage
 {
-    public class AmazonStorage : IStorage
+    public sealed class AmazonStorage : IStorage
     {
         private readonly string _bucketName;
         private readonly IAmazonS3 _client;

@@ -14,7 +14,7 @@ namespace Motoflex.Api.Controllers
     [Produces("application/json")]
     [Tags("pedidos")]
     [ApiExplorerSettings(IgnoreApi = true)] // comment this line to enable the controller
-    public class OrderController : AbstractController
+    public sealed class OrderController : AbstractController
     {
         private readonly IOrderService _service;
         private readonly INotificationContext _notificationContext;

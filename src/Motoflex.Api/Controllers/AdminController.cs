@@ -11,7 +11,7 @@ namespace Motoflex.Api.Controllers
     [Produces("application/json")]
     [Tags("administradores")]
     [ApiExplorerSettings(IgnoreApi = true)] // comment this line to enable the controller
-    public class AdminController : AbstractController
+    public sealed class AdminController : AbstractController
     {
         private readonly IAdminService _service;
 

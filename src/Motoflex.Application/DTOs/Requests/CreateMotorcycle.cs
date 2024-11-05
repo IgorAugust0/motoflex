@@ -2,16 +2,16 @@
 
 namespace Motoflex.Application.DTOs.Requests
 {
-    public class CreateMotorcycle
+    public sealed class CreateMotorcycle
     {
         [Required(ErrorMessage = "O ano é obrigatório")]
-        public int Year { get; set; }
+        public int Year { get; init; }
 
         [Required(ErrorMessage = "O modelo é obrigatório")]
-        public string? Model { get; set; }
+        public string? Model { get; init; }
 
         [Required(ErrorMessage = "A placa é obrigatória")]
         [Length(7, 7, ErrorMessage = "A placa deve ter 7 caracteres")]
-        public string? LicensePlate { get; set; }
+        public string? LicensePlate { get; init; }
     }
 }

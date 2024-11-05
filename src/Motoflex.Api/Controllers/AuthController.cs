@@ -11,7 +11,7 @@ namespace Motoflex.Api.Controllers
     [Route("auth")]
     [Produces("application/json")]
     [ApiExplorerSettings(IgnoreApi = true)] // hidden from swagger for security reasons
-    public class AuthController : ControllerBase
+    public sealed class AuthController : ControllerBase
     {
         private readonly IAdminService _adminService;
         private readonly IRenterService _renterService;

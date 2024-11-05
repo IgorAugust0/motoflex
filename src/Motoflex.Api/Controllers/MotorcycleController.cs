@@ -17,7 +17,7 @@ namespace Motoflex.Api.Controllers
     [Produces("application/json")]
     [Tags("motos")]
     // [SwaggerControllerOrder(1)]
-    public class MotorcycleController : ControllerBase
+    public sealed class MotorcycleController : ControllerBase
     {
         private readonly IMotorcycleService _service;
         private readonly INotificationContext _notificationContext;

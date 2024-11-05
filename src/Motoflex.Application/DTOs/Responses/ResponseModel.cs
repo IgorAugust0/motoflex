@@ -1,6 +1,6 @@
 ﻿namespace Motoflex.Application.DTOs.Responses
 {
-    public class ResponseModel<T>
+    public sealed class ResponseModel<T>
     {
         public T Data { get; set; }
         public IReadOnlyList<string>? Messages { get; }

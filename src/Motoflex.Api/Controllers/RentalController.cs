@@ -13,7 +13,7 @@ namespace Motoflex.Api.Controllers
     [Route("locacao")]
     [Produces("application/json")]
     [Tags("locação")]
-    public class RentalController : AbstractController
+    public sealed class RentalController : AbstractController
     {
         private readonly IRentalService _service;
         private readonly INotificationContext _notificationContext;

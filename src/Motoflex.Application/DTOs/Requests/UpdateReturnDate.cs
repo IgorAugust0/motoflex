@@ -2,9 +2,9 @@
 
 namespace Motoflex.Application.DTOs.Requests
 {
-    public class UpdateReturnDate
+    public sealed class UpdateReturnDate
     {
         [Required(ErrorMessage = "Data de devolução é obrigatória")]
-        public required DateTime ReturnDate { get; set; }
+        public required DateTime ReturnDate { get; init; }
     }
 }

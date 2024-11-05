@@ -2,9 +2,9 @@
 
 namespace Motoflex.Application.DTOs.Requests
 {
-    public class CreateOrder
+    public sealed class CreateOrder
     {
         [Required(ErrorMessage = "Valor da corrida é obrigatório")]
-        public required decimal DeliveryFee { get; set; }
+        public required decimal DeliveryFee { get; init; }
     }
 }

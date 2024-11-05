@@ -15,7 +15,7 @@ namespace Motoflex.Api.Controllers
     [Route("entregadores")]
     [Produces("application/json")]
     [Tags("entregadores")]
-    public class RenterController : ControllerBase
+    public sealed class RenterController : ControllerBase
     {
         private readonly IRenterService _service;
         private readonly INotificationContext _notificationContext;

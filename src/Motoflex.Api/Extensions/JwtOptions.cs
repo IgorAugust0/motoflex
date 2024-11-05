@@ -3,7 +3,7 @@
     /// <summary>
     /// Strongly typed options class for JWT configuration
     /// </summary>
-    public class JwtOptions
+    public sealed class JwtOptions
     {
         // Name of the configuration section in appsettings.json
         public const string SectionName = "JWT";

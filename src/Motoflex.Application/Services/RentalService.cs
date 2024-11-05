@@ -27,6 +27,7 @@ namespace Motoflex.Application.Services
             ArgumentNullException.ThrowIfNull(motorcycleService, nameof(motorcycleService));
             ArgumentNullException.ThrowIfNull(notificationContext, nameof(notificationContext));
             ArgumentNullException.ThrowIfNull(logger, nameof(logger));
+
             _repository = repository;
             _renterService = renterService;
             _motorcycleService = motorcycleService;

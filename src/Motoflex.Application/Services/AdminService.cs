@@ -16,6 +16,7 @@ namespace Motoflex.Application.Services
         {
             ArgumentNullException.ThrowIfNull(repository, nameof(repository));
             ArgumentNullException.ThrowIfNull(logger, nameof(logger));
+
             _repository = repository;
             _logger = logger;
         }

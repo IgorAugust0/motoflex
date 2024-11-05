@@ -9,16 +9,6 @@ namespace Motoflex.Infrastructure.Repositories
     {
         protected readonly AppDbContext _context = context;
 
-        // public virtual IQueryable<T> Get(Guid id) // remove virtual if something goes wrong
-        // {
-        //     return _context.Set<T>().Where(x => x.Id == id);
-        // }
-
-        // public IQueryable<T> Get()
-        // {
-        //     return _context.Set<T>();
-        // }
-
         public async Task<IQueryable<T>> GetAsync()
         {
             var result = await _context.Set<T>()
@@ -35,6 +25,13 @@ namespace Motoflex.Infrastructure.Repositories
                 .ToListAsync();
             return result.AsQueryable();
         }
+
+        // public virtual async Task<T?> GetByIdAsync(Guid id) // Changed from IQueryable to T
+        // {
+        //     return await _context.Set<T>()
+        //         .AsNoTracking()
+        //         .SingleOrDefaultAsync(x => x.Id == id);
+        // }
 
         public async Task InsertAsync(T entity)
         {

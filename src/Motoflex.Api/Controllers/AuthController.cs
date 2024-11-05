@@ -10,7 +10,7 @@ namespace Motoflex.Api.Controllers
     [ApiController]
     [Route("auth")]
     [Produces("application/json")]
-    [ApiExplorerSettings(IgnoreApi = true)] // comment this line to enable the controller
+    [ApiExplorerSettings(IgnoreApi = true)] // hidden from swagger for security reasons
     public class AuthController : ControllerBase
     {
         private readonly IAdminService _adminService;

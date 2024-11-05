@@ -29,6 +29,7 @@ namespace Motoflex.Application.Services
             ArgumentNullException.ThrowIfNull(renterService, nameof(renterService));
             ArgumentNullException.ThrowIfNull(notificationContext, nameof(notificationContext));
             ArgumentNullException.ThrowIfNull(logger, nameof(logger));
+            
             _repository = repository;
             // _publisherNotification = publisherNotification;
             _renterService = renterService;
@@ -55,6 +56,7 @@ namespace Motoflex.Application.Services
         {
             if (id == Guid.Empty) return null;
             var order = await _repository.GetByIdAsync(id);
+            // return await _repository.GetByIdAsync(id); if using T instead of IQueryable<T> in BaseRepository
             return order.SingleOrDefault(); // FirstOrDefault()
         }
 

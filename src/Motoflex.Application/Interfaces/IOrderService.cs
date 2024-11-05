@@ -5,6 +5,7 @@ namespace Motoflex.Application.Interfaces
     public interface IOrderService
     {
         Task<IEnumerable<Order>> GetAsync();
+        Task<Order?> GetByIdAsync(Guid id);
         Task<Order?> GetNotifiedOrdersAsync(Guid id);
         Task<Order?> InsertOrderAsync(Order order);
         Task<bool> AcceptOrderAsync(Guid id, Guid renterId);

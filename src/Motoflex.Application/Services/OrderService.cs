@@ -51,7 +51,7 @@ namespace Motoflex.Application.Services
             return await _repository.GetAsync();
         }
 
-        private async Task<Order?> GetByIdAsync(Guid id)
+        public async Task<Order?> GetByIdAsync(Guid id)
         {
             if (id == Guid.Empty) return null;
             var order = await _repository.GetByIdAsync(id);

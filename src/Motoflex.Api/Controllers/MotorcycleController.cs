@@ -5,6 +5,7 @@ using Motoflex.Application.Interfaces;
 using Motoflex.Domain.Entities;
 using Motoflex.Domain.Interfaces.Notifications;
 using Motoflex.Application.Mappers;
+using TGolla.Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Motoflex.Api.Controllers
@@ -15,6 +16,7 @@ namespace Motoflex.Api.Controllers
     [Route("motos")]
     [Produces("application/json")]
     [Tags("motos")]
+    // [SwaggerControllerOrder(1)]
     public class MotorcycleController : ControllerBase
     {
         private readonly IMotorcycleService _service;

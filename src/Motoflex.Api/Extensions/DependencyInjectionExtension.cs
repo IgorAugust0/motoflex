@@ -2,6 +2,7 @@
 using Motoflex.Application;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace Motoflex.Api.Extensions
 {
@@ -35,7 +36,16 @@ namespace Motoflex.Api.Extensions
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Motoflex API", Version = "v1" });
-                // c.OrderActionsBy(apiDesc => Array.IndexOf(OrderedGroups, apiDesc.GroupName).ToString("D2")); // this custom sorting is not actually working
+
+                // Get the current assembly
+                var assembly = Assembly.GetExecutingAssembly();
+                // Get the XML file path that matches your assembly name
+                var xmlFile = $"{Path.GetFileNameWithoutExtension(assembly.Location)}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+
+                // TODO: fix sorting of groups
+                c.OrderActionsBy(apiDesc => Array.IndexOf(OrderedGroups, apiDesc.GroupName).ToString("D2"));
             });
 
             // Configure Database Context and Repositories

@@ -7,6 +7,8 @@ builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
+await app.MigrateDataBaseAsync();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
